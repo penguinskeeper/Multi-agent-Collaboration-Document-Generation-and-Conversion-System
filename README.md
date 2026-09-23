@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">🤖 Deep Search Pro</h1>
+  <h1 align="center">Multi-agent Collaboration - Document Generation and Conversion System</h1>
   <p align="center"><b>多智能体协作-文档生成与转换系统 </b></p>
   <p align="center">
     <a href="https://github.com/penguinskeeper/deep-search-pro/actions/workflows/ci.yml"><img src="https://github.com/penguinskeeper/deep-search-pro/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
@@ -293,7 +293,7 @@ curl -X POST http://localhost:8000/api/task \
 
 ---
 
-## 📁 项目文件速查
+## 📁 项目文件结构
 
 ```
 deep-search-pro/
@@ -361,7 +361,8 @@ deep-search-pro/
 ├── .env.example                    # 🔑 环境变量模板（复制为 .env 后填值）
 ├── .gitignore / .gitattributes     # 收录规则 / 换行符规范
 ├── LICENSE                         # MIT
-├── SECURITY.md / CONTRIBUTING.md   # 漏洞上报 / 贡献指南
+├── CHANGELOG.md                    # 版本变更记录
+├── SECURITY.md                     # 漏洞上报
 └── 操作手册.md / TESTING.md         # 中文操作手册与测试手册
 ```
 
@@ -409,8 +410,8 @@ deep-search-pro/
 
 [MIT](./LICENSE) © 2026 penguinskeeper
 
-> 本项目为技术演示。`ragflow_docs/` 下的 9 篇药品资料**由作者自行撰写**
-> 医药行业常识，不引用、不转载任何第三方版权文档，仅供演示知识库检索链路，
+> 本项目为技术演示。`ragflow_docs/` 下的 9 篇药品资料**由作者自行撰写**，
+> 资料参考医药行业常识，不引用、不转载任何第三方版权文档，仅供演示知识库检索链路，
 > **不构成任何医疗建议**；作者非医药专业人士，请勿将其作为用药参考。详见
 > [`ragflow_docs/README.md`](./ragflow_docs/README.md)。
 
