@@ -55,7 +55,7 @@ def ask_question(chat_name,question):
     response = session.ask(question = question,stream=True)
     # 接收总结果
     result = ""
-    # 流的每一部分的对象 part
+    # 流的每一部分的对象part
     for part in response:
         # 数据存在对象中content上！！
         print(part.content)
