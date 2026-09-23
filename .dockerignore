@@ -1,0 +1,22 @@
+# Docker 构建上下文排除清单（减小镜像体积、避免敏感信息进镜像）
+.env
+.git/
+.github/
+.gitignore
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+output/
+updated/
+data/*.db*
+data/*.sqlite*
+tests/
+private-notes/
+docs/
+.gitattributes
+Dockerfile
+docker-compose.yml
+.dockerignore
+requirements-dev.txt

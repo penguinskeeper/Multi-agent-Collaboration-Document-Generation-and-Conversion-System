@@ -1,0 +1,28 @@
+# ============================================================
+# 换行符与文件类型规范
+#
+# 目的：避免跨平台协作时 CRLF / LF 被互相改写。
+#   - 源码统一 LF
+#   - Windows 批处理必须保持 CRLF（改成 LF 后双击可能异常）
+#   - 二进制资源不做换行转换
+# ============================================================
+
+* text=auto eol=lf
+
+# Windows 脚本必须保持 CRLF
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.ps1  text eol=crlf
+
+# 二进制资源
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
+*.db   binary
+*.woff2 binary
+
+# 导出的依赖清单不要参与 diff 统计
+requirements.txt linguist-vendored

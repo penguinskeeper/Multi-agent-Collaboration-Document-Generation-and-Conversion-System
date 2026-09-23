@@ -1,0 +1,59 @@
+# ============================================================
+# Deep Search Pro - 一键启动编排（app + MySQL）
+# 用法：
+#   1. cp .env.example .env 并填入真实配置
+#      （容器内 MYSQL_HOST 已强制指向 mysql 服务，.env 里的值会被覆盖）
+#   2. docker compose up -d --build
+#   3. 浏览器访问 http://localhost:8000/docs
+# 数据说明：
+#   - MySQL 首次启动时自动执行 data/seed_demo.sql（建表 + 演示数据）
+#   - mysql_data 卷持久化数据；docker compose down -v 可清库重来
+# ============================================================
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: dsp-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123456}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-pharma_demo}
+      MYSQL_USER: ${MYSQL_USER:-dsp}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-dsp123456}
+    ports:
+      - "3307:3306"   # 宿主机 3307 映射，避免与本机已有 MySQL 冲突
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # 官方镜像约定：该目录下的 .sql 首次启动时按文件名顺序自动执行
+      - ./data/seed_demo.sql:/docker-entrypoint-initdb.d/01-seed_demo.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root123456}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build: .
+    container_name: dsp-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # 容器内网访问：覆盖 .env 中的 MYSQL_HOST，直连 mysql 服务名
+      MYSQL_HOST: mysql
+      MYSQL_PORT: "3306"
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-pharma_demo}
+      MYSQL_USER: ${MYSQL_USER:-dsp}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-dsp123456}
+    ports:
+      - "8000:8000"
+    volumes:
+      # 生成文件（MD/PDF）持久化到宿主机，方便直接查看
+      - ./output:/app/output
+      - ./data:/app/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

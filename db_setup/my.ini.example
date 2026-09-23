@@ -1,0 +1,41 @@
+; ============================================================
+; MySQL 8.4 配置模板（Deep Search Pro 示例）
+;
+; 这是模板，不是可直接使用的配置——请先复制到 MySQL 安装目录下的
+; my.ini，并把 <MYSQL_HOME> 替换成你自己的路径，例如：
+;     D:/MySQL            (Windows)
+;     /usr/local/mysql    (Linux)
+;
+; 启用方式：
+;     mysqld --defaults-file="<MYSQL_HOME>/my.ini"
+;
+; 注意：若启动命令带了 --console，本文件的 log-error 会被覆盖，
+;       错误日志只往控制台输出、不落盘，排查问题时会看不到现场。
+;       生产/长期使用建议去掉 --console，让日志正常写入文件。
+; ============================================================
+
+[mysqld]
+basedir = <MYSQL_HOME>/mysql-8.4.6-winx64
+datadir = <MYSQL_HOME>/data
+port    = 3306
+
+character-set-server = utf8mb4
+collation-server     = utf8mb4_unicode_ci
+default-time-zone    = '+08:00'
+
+max_connections          = 100
+; 缓冲池按机器内存调整：以下 256M 适用于 8GB 内存的开发机
+innodb_buffer_pool_size  = 256M
+innodb_log_file_size     = 64M
+
+log-error   = <MYSQL_HOME>/logs/mysql-error.log
+slow_query_log = 1
+long_query_time = 2
+slow_query_log_file = <MYSQL_HOME>/logs/mysql-slow.log
+
+[client]
+port = 3306
+default-character-set = utf8mb4
+
+[mysql]
+default-character-set = utf8mb4
